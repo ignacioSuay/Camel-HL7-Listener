@@ -1,7 +1,7 @@
 Camel-HL7-Listener
 ==================
 
-Run this project using:
+To run this project try:
 
 mvn camel:run
 
