@@ -27,7 +27,11 @@
 
     </camelContext>
 
-    <context:annotation-config/>
-    <bean class="hl7Integration.camel.configuration.ListenerConfiguration"/>
+    <context:component-scan base-package="hl7Integration.camel"/>
+
+    <bean id="hl7codec" class="org.apache.camel.component.hl7.HL7MLLPCodec">
+        <property name="charset" value="iso-8859-1"/>
+    </bean>
+
 
 </beans>
