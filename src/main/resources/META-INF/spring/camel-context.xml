@@ -11,12 +11,15 @@
             http://camel.apache.org/schema/spring/camel-spring.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
     <!-- enable Spring @Component scan -->
-    <context:component-scan base-package="hl7Integration.camel.routes.in"/>
+    <context:component-scan base-package="hl7Integration.camel"/>
 
     <bean id="properties" class="org.apache.camel.component.properties.PropertiesComponent">
         <property name="location" value="classpath:hl7integration/configuration/endpoint.properties"/>
     </bean>
 
+    <bean id="hl7codec" class="org.apache.camel.component.hl7.HL7MLLPCodec">
+        <property name="charset" value="iso-8859-1"/>
+    </bean>
 
     <camelContext xmlns="http://camel.apache.org/schema/spring"  id="camelContext">
 
@@ -26,12 +29,5 @@
                         uri="mina:tcp://{{endpoint.server}}:{{endpoint.port}}?sync=true&amp;codec=#hl7codec" />
 
     </camelContext>
-
-    <context:component-scan base-package="hl7Integration.camel"/>
-
-    <bean id="hl7codec" class="org.apache.camel.component.hl7.HL7MLLPCodec">
-        <property name="charset" value="iso-8859-1"/>
-    </bean>
-
 
 </beans>
