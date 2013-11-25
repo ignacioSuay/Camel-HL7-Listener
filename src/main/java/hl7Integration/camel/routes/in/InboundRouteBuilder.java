@@ -18,7 +18,7 @@ public class InboundRouteBuilder extends SpringRouteBuilder
             .startupOrder(997)
               .unmarshal()
                .hl7(false)
-                .to("bean:RespondACK?method=process")
+                .to("bean:respondACK?method=process")
                 .end();
 
 
