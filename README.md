@@ -11,4 +11,4 @@ mvn -Dtest=TestListener test
 
 You can find all the documentation of this project in:
 
-http://www.hl7integrationengineer.com/how-to-create-a-camel-hl7-listener/
+http://ignaciosuay.com/how-to-create-a-camel-hl7-listener/
