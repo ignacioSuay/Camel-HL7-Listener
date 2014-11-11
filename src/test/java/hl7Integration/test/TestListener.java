@@ -1,5 +1,9 @@
 package hl7Integration.test;
 
+import ca.uhn.hl7v2.HL7Exception;
+import ca.uhn.hl7v2.model.Message;
+import ca.uhn.hl7v2.parser.PipeParser;
+import ca.uhn.hl7v2.util.Terser;
 import org.apache.camel.component.hl7.HL7MLLPCodec;
 import org.apache.camel.impl.JndiRegistry;
 import org.apache.camel.test.junit4.CamelTestSupport;
@@ -29,7 +33,10 @@ public class TestListener extends CamelTestSupport {
 
         String out = (String) template.requestBody("mina:tcp://localhost:4444?sync=true&codec=#hl7codec", inMessage);
 
-        System.out.println(out);
+        assertNotNull(out);
+        //Check that the output is an ACK message
+        assertEquals("ACK", getMessageType(out));
+
 
     }
 
@@ -37,5 +44,19 @@ public class TestListener extends CamelTestSupport {
         JndiRegistry jndi = super.createRegistry();
         jndi.bind("hl7codec", new HL7MLLPCodec());
         return jndi;
+    }
+
+    /**
+     * We can use Hapi Terser to retrieve the type of Message
+     * @param message HL7 Message
+     * @return Type of the HL7 Message (e.g. ACK)
+     */
+    private String getMessageType(String message) throws HL7Exception{
+        PipeParser pipeParser = new PipeParser();
+        Message hl7Message = pipeParser.parse(message);
+        Terser terser = new Terser(hl7Message);
+
+        return terser.get("/MSH-9");
+
     }
 }
